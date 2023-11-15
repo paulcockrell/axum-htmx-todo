@@ -1,0 +1,40 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js
+
+PATH: 
+  C:\Program Files\PowerShell\7;C:\Users\operator\.local\bin;C:\Python311\Scripts\;C:\Python311\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Users\operator\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\GitHub CLI\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\CMake\bin;C:\Program Files\LLVM\bin;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\PowerShell\7\;C:\Users\operator\.cargo\bin;C:\Users\operator\AppData\Local\Microsoft\WindowsApps;C:\Users\operator\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\operator\.dotnet\tools;C:\Users\operator\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Neovim\bin;C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin;;C:\Users\operator\AppData\Local\Programs\oh-my-posh\bin;C:\Program Files\JetBrains\RustRover 233.8264.32\bin;
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.13.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  SyntaxError: C:\Users\operator\Development\Rust\todo-axum-askama-htmx\package.json: Unexpected token } in JSON at position 278
+      at JSON.parse (<anonymous>)
+      at C:\Users\operator\AppData\Roaming\nvm\v18.13.0\node_modules\yarn\lib\cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (C:\Users\operator\AppData\Roaming\nvm\v18.13.0\node_modules\yarn\lib\cli.js:310:30)
+      at C:\Users\operator\AppData\Roaming\nvm\v18.13.0\node_modules\yarn\lib\cli.js:321:13
+
+npm manifest: 
+  {
+    "scripts": {
+      "dev": "npx tailwindcss -i ./templates/input.css -o ./assets/css/main.css --watch",
+      "prod": "npx tailwindcss -i ./templates/input.css -o ./assets/css/main.css --minify"
+    },
+    "devDependencies": {
+      "daisyui": "^4.0.7",
+      "tailwindcss": "^3.3.3",
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
