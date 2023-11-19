@@ -5,7 +5,7 @@ module.exports = {
   entry: './assets/js/index.js',
   output: {
     path: path.resolve(__dirname, 'assets/js'),
-    filename: 'bundle.js',
+    filename: 'index.bundle.js',
   },
   watch: true,
   watchOptions: {
