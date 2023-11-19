@@ -1,6 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./templates/**/*.html"],
+  purge: [
+    './templates/**/*.html',
+    './assets/**/*.js'
+  ],
   daisyui: {
     themes: [
       {
