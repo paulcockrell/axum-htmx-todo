@@ -1,4 +1,4 @@
-use axum::{routing::get, Router};
+use axum::{middleware::Next, routing::get, Router};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 mod api;
@@ -23,6 +23,9 @@ async fn index(
         .map_err(db::map_db_err)
 }
 
+async fn pong() -> Result<String, (axum::http::StatusCode, String)> {
+    Err((axum::http::StatusCode::NOT_FOUND, "Bad ping".to_string()))
+}
 #[tokio::main]
 async fn main() {
     tracing_subscriber::registry()
@@ -40,6 +43,7 @@ async fn main() {
     // build our application
     let app = Router::new()
         .route("/", get(index))
+        .route("/ping", get(pong))
         .nest_service("/assets", tower_http::services::ServeDir::new("assets"))
         .nest_service(
             "/favicon.ico",

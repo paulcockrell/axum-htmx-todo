@@ -1,37 +1,26 @@
 <tr id="todo_item{{id}}">
   <td>
-{{id}}
-</td>
-  <td>
     <button hx-put="/api/todos/{{id}}/done"
             hx-target="#todo_item{{id}}"
             hx-swap="outerHTML"
-            class="w-1/6"
-    >
-        <i class="fa-regular fa-square{% if done %}-check{% endif %} fa-lg"></i>
+            class="w-1/6">
+      <i class="fa-regular fa-square{% if done %}-check{% endif %} fa-lg"></i>
     </button>
-</td>
-<td>
-        <p id="todo_text{{id}}" class="text-lg pl-2 pr-2 pt-1 pb-1">{{text}}</p>
-        <form id="todo_change{{id}}"
-              hx-put="/api/todos/{{id}}/text"
-              hx-target="#todo_item{{id}}"
-              hx-swap="outerHTML"
-              class="w-full hidden">
-            <input type="text" name="text" value="{{text}}" id="todo_change_input{{id}}"
-                   class="text-lg pl-2 pr-2 pt-1 pb-1 w-full placeholder:text-black border-2 rounded-lg"
-                   aria-label="change TODO text">
-        </form>
-</td>
-<td>
-        <button hx-delete="/api/todos/{{id}}"
-                hx-target="#todo_item{{id}}"
-                hx-swap="delete"
-                hx-confirm="Are you sure"
-                hx-swap="outerHTML swap:1s"
-                class="btn-delete"
-        >
-            <i class="fa-solid fa-trash fa-lg"></i>
-        </button>
-</td>
+  </td>
+  <td>
+    <p id="todo_text{{id}}" class="text-lg pl-2 pr-2 pt-1 pb-1">{{text}}</p>
+  </td>
+  <td>
+    <form id="todo_delete{{id}}"
+          hx-delete="/api/todos/{{id}}"
+          hx-target="#todo_item{{id}}"
+          hx-swap="delete"
+          hx-confirm="Are you sure"
+          hx-swap="outerHTML swap:1s">
+      <button type="submit" class="btn-delete">
+        <span class="htmx-indicator loading loading-spinner"></span>
+        <i class="fa-solid fa-trash fa-lg"></i>
+      </button>
+    </form>
+  </td>
 </tr>
