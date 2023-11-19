@@ -1,4 +1,4 @@
-use axum::{middleware::Next, routing::get, Router};
+use axum::{routing::get, Router};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 mod api;
