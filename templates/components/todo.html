@@ -1,12 +1,14 @@
 <tr id="todo_item{{id}}">
-  <td>
+  <th>
+    <label>
     <button hx-put="/api/todos/{{id}}/done"
             hx-target="#todo_item{{id}}"
             hx-swap="outerHTML"
             class="w-1/6">
       <i class="fa-regular fa-square{% if done %}-check{% endif %} fa-lg"></i>
     </button>
-  </td>
+    </label>
+  </th>
   <td>
     <p id="todo_text{{id}}" class="text-lg pl-2 pr-2 pt-1 pb-1">{{text}}</p>
   </td>

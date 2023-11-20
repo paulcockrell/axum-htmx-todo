@@ -11,10 +11,10 @@ use serde::Deserialize;
 async fn apply_hx_retarget<B>(req: Request<B>, next: Next<B>) -> Response {
     let mut res = next.run(req).await;
     if res.status().as_u16() >= 400 {
+        // res.headers_mut()
+        //     .insert("HX-Retarget", "#any-errors".parse().unwrap());
         res.headers_mut()
-            .insert("HX-Retarget", "#any-errors".parse().unwrap());
-        res.headers_mut()
-            .insert("HX-Swap", "outerHTML".parse().unwrap());
+            .insert("HX-ReSwap", "innerHTML".parse().unwrap());
     }
     res
 }

@@ -157,32 +157,34 @@
           <h2 class="card-title">
             <a class="link-hover link">Todos</a>
           </h2>
-          <div class="alert alert-error">
+          <div class="alert alert-error" id="todo-error">
             <i class="fa-regular fa-circle-xmark"></i>
-            <span id="message" class="message"></span>
+            <span id="todo-error-message" class="message"></span>
           </div>
-          <form hx-post="/api/todos" hx-target="#todo-list" hx-swap="beforeend transition:true" hx-target-400="#message"
-            class="relative">
+          <form hx-post="/api/todos" hx-target="#todo-list" hx-swap="beforeend transition:true"
+            hx-target-400="#todo-error-message" class="relative">
             <input type="text" name="text" aria-label="Input a new todo" placeholder="Enter new todo"
               class="input input-bordered w-full" />
             <div class="flex justify-end gap-2 mt-4">
-              <button type="button" class="btn btn-ghost" _="on click reset() to the closest <form/>">
+              <button type="button" class="btn btn-ghost"
+                _="on click reset() to the closest <form/> on click set #todo-error-message.innerText to ''">
                 Clear
               </button>
-              <button data-loading-disable type="submit" class="btn btn-primary">
+              <button data-loading-disable type="submit" class="btn btn-primary"
+                _="on click set #todo-error-message.innerText to ''">
                 Add todo
               </button>
             </div>
           </form>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="table table-zebra">
-            <tbody id="todo-list">
-              {% for todo in todos %}
-              {{ todo|safe }}
-              {% endfor %}
-            </tbody>
-          </table>
+          <div class="overflow-x-auto">
+            <table class="table">
+              <tbody id="todo-list">
+                {% for todo in todos %}
+                {{ todo|safe }}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
       <!-- /card -->
