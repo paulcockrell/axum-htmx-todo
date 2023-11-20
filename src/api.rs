@@ -1,4 +1,23 @@
+use askama_axum::Response;
+use axum::{
+    http::Request,
+    middleware::{self, Next},
+};
 use serde::Deserialize;
+
+// Example middleware that looks at response codes and sets some headers
+// used by HTMX on the frontend. This isn't actually required but here
+// for reference
+async fn apply_hx_retarget<B>(req: Request<B>, next: Next<B>) -> Response {
+    let mut res = next.run(req).await;
+    if res.status().as_u16() >= 400 {
+        res.headers_mut()
+            .insert("HX-Retarget", "#any-errors".parse().unwrap());
+        res.headers_mut()
+            .insert("HX-Swap", "outerHTML".parse().unwrap());
+    }
+    res
+}
 
 pub fn api_routes() -> axum::Router<crate::db::DBPool> {
     axum::Router::new()
@@ -6,6 +25,7 @@ pub fn api_routes() -> axum::Router<crate::db::DBPool> {
         .route("/todos/:id", axum::routing::delete(delete_todo))
         .route("/todos/:id/done", axum::routing::put(done_todo))
         .route("/todos/:id/text", axum::routing::put(change_text))
+        .layer(middleware::from_fn(apply_hx_retarget))
 }
 
 async fn delete_todo(
@@ -29,7 +49,7 @@ impl AddTodoForm {
         if self.text.len() < MIN_LEN {
             return Err((
                 axum::http::StatusCode::BAD_REQUEST,
-                format!("todo name must be at least {MIN_LEN}"),
+                format!("Todo must be at least {MIN_LEN} characters"),
             ));
         }
         Ok(())

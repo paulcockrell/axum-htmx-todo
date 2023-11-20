@@ -13,3 +13,7 @@
 .htmx-request.htmx-indicator {
     display:inline;
 }
+
+.alert:has(.message:empty) {
+  display: none;
+}

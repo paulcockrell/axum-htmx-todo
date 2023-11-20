@@ -151,28 +151,26 @@
       </section>
       <!-- /stats -->
       <!-- card -->
-      <section class="card col-span-12 overflow-hidden bg-base-100 shadow-sm xl:col-span-6">
-        <div class="card-body grow-0" hx-ext="response-targets">
+      <section class="card col-span-12 overflow-hidden bg-base-100 shadow-sm xl:col-span-6"
+        hx-ext="response-targets, loading-states">
+        <div class="card-body grow-0">
           <h2 class="card-title">
             <a class="link-hover link">Todos</a>
           </h2>
-          <div id="any-errors"></div>
-          <div id="d1"></div>
-          <form hx-post="/api/todos" hx-target="#todo-list" hx-swap="beforeend transition:true"
-            hx-target-400="#any-errors" class="relative">
+          <div class="alert alert-error">
+            <i class="fa-regular fa-circle-xmark"></i>
+            <span id="message" class="message"></span>
+          </div>
+          <form hx-post="/api/todos" hx-target="#todo-list" hx-swap="beforeend transition:true" hx-target-400="#message"
+            class="relative">
             <input type="text" name="text" aria-label="Input a new todo" placeholder="Enter new todo"
               class="input input-bordered w-full" />
             <div class="flex justify-end gap-2 mt-4">
               <button type="button" class="btn btn-ghost" _="on click reset() to the closest <form/>">
                 Clear
               </button>
-              <button hx-disabled-elt="this" type="submit" class="btn btn-primary">
-                <span class="htmx-indicator loading loading-spinner"></span>
+              <button data-loading-disable type="submit" class="btn btn-primary">
                 Add todo
-              </button>
-              <button hx-ext="response-targets" hx-target-404="#d1" hx-get="/ping">
-                Click Me!
-                <div id="d1"></div>
               </button>
             </div>
           </form>
