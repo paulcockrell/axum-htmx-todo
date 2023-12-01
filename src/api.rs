@@ -11,21 +11,91 @@ use serde::Deserialize;
 async fn apply_hx_retarget<B>(req: Request<B>, next: Next<B>) -> Response {
     let mut res = next.run(req).await;
     if res.status().as_u16() >= 400 {
-        // res.headers_mut()
-        //     .insert("HX-Retarget", "#any-errors".parse().unwrap());
         res.headers_mut()
             .insert("HX-ReSwap", "innerHTML".parse().unwrap());
     }
     res
 }
 
+async fn apply_hx_trigger<B>(req: Request<B>, next: Next<B>) -> Response {
+    let mut res = next.run(req).await;
+    let happy_range = 200..399;
+    if happy_range.contains(&res.status().as_u16()) {
+        res.headers_mut()
+            .insert("HX-Trigger-After-Swap", "todo-updated".parse().unwrap());
+    }
+    res
+}
+
 pub fn api_routes() -> axum::Router<crate::db::DBPool> {
-    axum::Router::new()
+    let with_trigger = axum::Router::new()
         .route("/todos", axum::routing::post(add_todo))
         .route("/todos/:id", axum::routing::delete(delete_todo))
         .route("/todos/:id/done", axum::routing::put(done_todo))
         .route("/todos/:id/text", axum::routing::put(change_text))
+        .layer(middleware::from_fn(apply_hx_trigger));
+
+    let without_trigger = axum::Router::new()
+        .route("/todos/stats/sum", axum::routing::get(sum_todo))
+        .route("/todos/stats/sum_open", axum::routing::get(sum_todo_open))
+        .route(
+            "/todos/stats/sum_closed",
+            axum::routing::get(sum_todo_closed),
+        )
+        .route("/todos/piechart", axum::routing::get(piechart_todo));
+
+    axum::Router::new()
+        .merge(with_trigger)
+        .merge(without_trigger)
         .layer(middleware::from_fn(apply_hx_retarget))
+}
+
+async fn piechart_todo(
+    axum::extract::State(pool): axum::extract::State<crate::db::DBPool>,
+) -> Result<crate::todo::TodoPiechartTemplate, (axum::http::StatusCode, String)> {
+    sqlx::query_as!(
+        crate::todo::TodoPiechartTemplate,
+        r#"SELECT COUNT(nullif(done, false)) as sum_closed, COUNT(nullif(done, true)) as sum_open FROM todo"#,
+    )
+    .fetch_one(&pool)
+    .await
+    .map_err(crate::db::map_db_err)
+}
+
+async fn sum_todo(
+    axum::extract::State(pool): axum::extract::State<crate::db::DBPool>,
+) -> Result<crate::todo::TodoStatTemplate, (axum::http::StatusCode, String)> {
+    sqlx::query_as!(
+        crate::todo::TodoStatTemplate,
+        r#"SELECT COUNT(id) as value FROM todo"#,
+    )
+    .fetch_one(&pool)
+    .await
+    .map_err(crate::db::map_db_err)
+}
+
+async fn sum_todo_open(
+    axum::extract::State(pool): axum::extract::State<crate::db::DBPool>,
+) -> Result<crate::todo::TodoStatTemplate, (axum::http::StatusCode, String)> {
+    sqlx::query_as!(
+        crate::todo::TodoStatTemplate,
+        r#"SELECT COUNT(id) as value FROM todo WHERE done = false"#,
+    )
+    .fetch_one(&pool)
+    .await
+    .map_err(crate::db::map_db_err)
+}
+
+async fn sum_todo_closed(
+    axum::extract::State(pool): axum::extract::State<crate::db::DBPool>,
+) -> Result<crate::todo::TodoStatTemplate, (axum::http::StatusCode, String)> {
+    sqlx::query_as!(
+        crate::todo::TodoStatTemplate,
+        r#"SELECT COUNT(id) as value FROM todo WHERE done = true"#,
+    )
+    .fetch_one(&pool)
+    .await
+    .map_err(crate::db::map_db_err)
 }
 
 async fn delete_todo(

@@ -1,27 +1,20 @@
 <tr id="todo_item{{id}}">
   <th>
     <label>
-    <button hx-put="/api/todos/{{id}}/done"
-            hx-target="#todo_item{{id}}"
-            hx-swap="outerHTML"
-            class="w-1/6">
-      <i class="fa-regular fa-square{% if done %}-check{% endif %} fa-lg"></i>
-    </button>
+      <button hx-put="/api/todos/{{id}}/done" hx-target="#todo_item{{id}}" hx-swap="outerHTML" class="w-1/6">
+        <i class="fa-regular fa-square{% if done %}-check{% endif %} fa-lg"></i>
+      </button>
     </label>
   </th>
   <td>
     <p id="todo_text{{id}}" class="text-lg pl-2 pr-2 pt-1 pb-1">{{text}}</p>
   </td>
   <td>
-    <form id="todo_delete{{id}}"
-          hx-delete="/api/todos/{{id}}"
-          hx-target="#todo_item{{id}}"
-          hx-swap="delete"
-          hx-confirm="Are you sure"
-          hx-swap="outerHTML swap:1s">
+    <form id="todo_delete{{id}}" hx-delete="/api/todos/{{id}}" hx-target="#todo_item{{id}}" hx-swap="delete"
+      hx-confirm="Are you sure" hx-swap="outerHTML swap:1s">
       <button type="submit" class="btn-delete">
         <span class="htmx-indicator loading loading-spinner"></span>
-        <i class="fa-solid fa-trash fa-lg"></i>
+        <i class="fa-solid fa-trash fa-lg text-red-200"></i>
       </button>
     </form>
   </td>

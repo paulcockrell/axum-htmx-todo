@@ -26,6 +26,7 @@ async fn index(
 async fn pong() -> Result<String, (axum::http::StatusCode, String)> {
     Err((axum::http::StatusCode::NOT_FOUND, "Bad ping".to_string()))
 }
+
 #[tokio::main]
 async fn main() {
     tracing_subscriber::registry()

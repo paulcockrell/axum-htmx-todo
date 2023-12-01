@@ -1,0 +1,10 @@
+<tc-pie
+    class="h-full w-full shrink0-0 [--shape-color-1:#A838FF] [--shape-color-2:#19D6BF]"
+    values="[{{sum_open}},{{sum_closed}}]"
+    shape-size="30"
+    shape-gap="6"
+    hx-ext="response-targets, loading-states"
+    hx-get="/api/todos/piechart"
+    hx-trigger="todo-updated from:body"
+    hx-swap="outerHTML"
+></tc-pie>
