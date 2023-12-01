@@ -1,9 +1,8 @@
 # todo-axum-askama-htmx
-Sample application with:
+
+Todo Dashboard:
 - Backend: axum, sqlite and askama
 - Frontend: HTMX, TailwindCSS and DaisyUI
-
-![How the application looks](workflow.gif)
 
 ## Run
 
@@ -39,22 +38,8 @@ To have a production ready web server:
 
 `cargo build --release`
 
-You will need to keep the `assets` and `templates` folders relative to the binary generated:
+You will need to keep the `assets` and `templates` folders relative to the binary generated
 
-```
-.
-├── assets
-│   ├── css
-│   │   └── main.css
-│   ├── favicon.ico
-│   └── js
-│       ├── fontawesome.js
-│       ├── htmx.org@1.9.5_dist_htmx.min.js
-│       └── hyperscript.org@0.9.11_dist__hyperscript.min.js
-├── templates
-│   ├── components
-│   │   └── todo.html
-│   ├── index.html
-│   └── input.css
-└── todox
-```
+# Thanks
+
+This project is based on the good work by [Bechma](https://github.com/Bechma/todo-axum-askama-htmx)
